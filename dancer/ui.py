@@ -472,6 +472,12 @@ Thanks to you for using this software!""") )
 		self.amplitude_centering_slider.bind("<ButtonRelease-1>", lambda x: cfg.save("amplitude_centering", self.amplitude_centering_slider.get()))
 		self.center_offset_slider.bind("<ButtonRelease-1>", lambda x: cfg.save("center_offset", self.center_offset_slider.get()))
 
+		# Focus bindings
+		self.pitch_slider.bind("<Button-1>", lambda x: self.pitch_slider.focus_set())
+		self.energy_slider.bind("<Button-1>", lambda x: self.energy_slider.focus_set())
+		self.amplitude_centering_slider.bind("<Button-1>", lambda x: self.amplitude_centering_slider.focus_set())
+		self.center_offset_slider.bind("<Button-1>", lambda x: self.center_offset_slider.focus_set())
+
 		# Load
 		self.heatmap_var.set(cfg.get("heatmap", self.heatmap_var.get()))
 		self.plp_var.set(cfg.get("plp", self.plp_var.get()))
