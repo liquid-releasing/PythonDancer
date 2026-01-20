@@ -292,6 +292,8 @@ class MainWindow(tk.Tk):
 
 		self.pitch_slider = ttk.Scale(pitch_group, orient=tk.VERTICAL, from_=200, to=-200, value=100)
 		self.pitch_slider.grid(row=0, column=0, sticky="ns")
+		self.pitch_label = ttk.Label(pitch_group, text="0")
+		self.pitch_label.grid(row=1, column=0)
 
 		energy_group = ttk.LabelFrame(self.settings_group, text="Energy -> Magnitude")
 		energy_group.grid(row=0, column=1, sticky="ns", padx=5, pady=5)
@@ -299,6 +301,8 @@ class MainWindow(tk.Tk):
 
 		self.energy_slider = ttk.Scale(energy_group, orient=tk.VERTICAL, from_=100, to=0, value=10)
 		self.energy_slider.grid(row=0, column=0, sticky="ns")
+		self.energy_label = ttk.Label(energy_group, text="0")
+		self.energy_label.grid(row=1, column=0)
 
 		amplitude_centering_group = ttk.LabelFrame(self.settings_group, text="Amplitude -> Centering")
 		amplitude_centering_group.grid(row=0, column=2, sticky="ns", padx=5, pady=5)
@@ -306,6 +310,8 @@ class MainWindow(tk.Tk):
 
 		self.amplitude_centering_slider = ttk.Scale(amplitude_centering_group, orient=tk.VERTICAL, from_=200, to=-200, value=0)
 		self.amplitude_centering_slider.grid(row=0, column=0, sticky="ns")
+		self.amp_label = ttk.Label(amplitude_centering_group, text="0")
+		self.amp_label.grid(row=1, column=0)
 
 		center_offset_group = ttk.LabelFrame(self.settings_group, text="Center Offset")
 		center_offset_group.grid(row=0, column=3, sticky="ns", padx=5, pady=5)
@@ -313,6 +319,8 @@ class MainWindow(tk.Tk):
 
 		self.center_offset_slider = ttk.Scale(center_offset_group, orient=tk.VERTICAL, from_=300, to=-300, value=0)
 		self.center_offset_slider.grid(row=0, column=0, sticky="ns")
+		self.center_label = ttk.Label(center_offset_group, text="0")
+		self.center_label.grid(row=1, column=0)
 
 		options_group = ttk.LabelFrame(self.settings_group, text="Options")
 		options_group.grid(row=0, column=4, sticky="ew", padx=5, pady=5)
@@ -471,6 +479,12 @@ Thanks to you for using this software!""") )
 		self.energy_slider.bind("<ButtonRelease-1>", lambda x: cfg.save("energy", self.energy_slider.get()))
 		self.amplitude_centering_slider.bind("<ButtonRelease-1>", lambda x: cfg.save("amplitude_centering", self.amplitude_centering_slider.get()))
 		self.center_offset_slider.bind("<ButtonRelease-1>", lambda x: cfg.save("center_offset", self.center_offset_slider.get()))
+		
+		# Init labels
+		self.pitch_label.configure(text=f"{self.pitch_slider.get():.0f}")
+		self.energy_label.configure(text=f"{self.energy_slider.get():.0f}")
+		self.amp_label.configure(text=f"{self.amplitude_centering_slider.get():.0f}")
+		self.center_label.configure(text=f"{self.center_offset_slider.get():.0f}")
 
 		# Focus bindings
 		self.pitch_slider.bind("<Button-1>", lambda x: self.pitch_slider.focus_set())
@@ -500,10 +514,10 @@ Thanks to you for using this software!""") )
 		self.speed_spinbox_var.trace("w", lambda *args: self.cmapPressed())
 		self.per_spinbox_var.trace("w", lambda *args: self.cmapPressed())
 
-		self.pitch_slider.configure(command=lambda x: self.RenderWorker())
-		self.energy_slider.configure(command=lambda x: self.RenderWorker())
-		self.amplitude_centering_slider.configure(command=lambda x: self.RenderWorker())
-		self.center_offset_slider.configure(command=lambda x: self.RenderWorker())
+		self.pitch_slider.configure(command=lambda x: [self.pitch_label.configure(text=f"{float(x):.0f}"), self.RenderWorker()])
+		self.energy_slider.configure(command=lambda x: [self.energy_label.configure(text=f"{float(x):.0f}"), self.RenderWorker()])
+		self.amplitude_centering_slider.configure(command=lambda x: [self.amp_label.configure(text=f"{float(x):.0f}"), self.RenderWorker()])
+		self.center_offset_slider.configure(command=lambda x: [self.center_label.configure(text=f"{float(x):.0f}"), self.RenderWorker()])
 
 		self.funscript_button.bind("<Button-1>", lambda x: self.bfunscriptPressed())
 		self.heatmap_button.bind("<Button-1>", lambda x: self.bheatmapPressed())
@@ -668,6 +682,9 @@ Thanks to you for using this software!""") )
 			pitch, energy = autoval(self.data, tpi=self.center_offset_slider.get(), target_speed=self.speed_spinbox_var.get(), v2above=self.per_spinbox_var.get()/100.0, opt=self.Automode())
 			self.pitch_slider["value"] = int(pitch)
 			self.energy_slider["value"] = int(energy * 10.0)
+			
+			self.pitch_label.configure(text=f"{int(pitch)}")
+			self.energy_label.configure(text=f"{int(energy * 10.0)}")
 
 	def OOR(self):
 		if self.var_oor.get() == "crop":
