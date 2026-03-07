@@ -751,7 +751,7 @@ Thanks to you for using this software!""") )
 			#	self.OOR(),
 			#	self.amplitude_centering_slider.get()
 			#)
-			self.audioo_canvas.savefig(fileName, bbox_inches="tight", pad_inches=0)
+			self.audioo_canvas.figure.savefig(fileName, bbox_inches="tight", pad_inches=0)
 		else:
 			print("File save cancelled.")
 
