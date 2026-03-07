@@ -78,6 +78,12 @@ Common startup errors and fixes:
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| `No module named 'librosa'` | librosa not installed before build | `pip install librosa` then rebuild |
-| `No module named 'matplotlib'` | matplotlib not installed before build | `pip install matplotlib` then rebuild |
+| `No module named 'librosa'` | librosa not installed before build | `pip install librosa` then clean rebuild |
+| `No module named 'matplotlib'` | matplotlib not installed before build | `pip install matplotlib` then clean rebuild |
 | `Device or resource busy` | exe is running during deploy | Close the app and re-run the copy commands |
+
+> **Important:** If you install a new dependency and rebuild without clearing the cache, PyInstaller may reuse stale analysis and still exclude the module. Always do a clean rebuild after installing new packages:
+> ```bash
+> rm -rf build dist
+> python builder.py
+> ```
