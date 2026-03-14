@@ -268,7 +268,7 @@ class MainWindow(tk.Tk):
 		self.audio_input.columnconfigure(0, weight=1)
 		self.audio_input.rowconfigure(0, weight=1)
 
-		self.audioi_canvas = FigureCanvas(master=self.audio_input)
+		self.audioi_canvas = FigureCanvas(Figure(), master=self.audio_input)
 		self.audioi_canvas.draw()
 		self.audioi_canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
@@ -277,7 +277,7 @@ class MainWindow(tk.Tk):
 		self.audio_output.columnconfigure(0, weight=1)
 		self.audio_output.rowconfigure(0, weight=1)
 
-		self.audioo_canvas = FigureCanvas(master=self.audio_output)
+		self.audioo_canvas = FigureCanvas(Figure(), master=self.audio_output)
 		self.audioo_canvas.draw()
 		self.audioo_canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
